@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_commerce_app/core/Models/product_model.dart';
+import 'package:e_commerce_app/core/Models/get_product/get_product.dart';
 import 'package:e_commerce_app/core/services/api_services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,7 +9,7 @@ part 'get_products_bloc.freezed.dart';
 
 class GetProductsBloc extends Bloc<GetProductsEvent, GetProductsState> {
   GetProductsBloc() : super(_Initial()) {
-     on<_GetProducts>(
+    on<_GetProducts>(
       (event, emit) async {
         emit(const GetProductsState.loading());
 

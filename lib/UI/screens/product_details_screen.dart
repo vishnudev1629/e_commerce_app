@@ -10,8 +10,25 @@ class ProductDetailsPage extends StatelessWidget {
     if (product == null) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Product Details"),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Color.fromARGB(255, 171, 132, 238),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: const Text(
+            'Ecommerce',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {},
+            ),
+          ],
+          centerTitle: true,
         ),
         body: const Center(
           child: Text(
@@ -33,8 +50,10 @@ class ProductDetailsPage extends StatelessWidget {
           },
         ),
         title: const Center(
-          child: Text('Product Details',
-              style: TextStyle(fontSize: 20, color: Color(0xff000000))),
+          child: Text(
+            'Product Details',
+            style: TextStyle(fontSize: 20, color: Color(0xff000000)),
+          ),
         ),
         actions: [
           IconButton(
@@ -48,14 +67,23 @@ class ProductDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: product!['image'] ?? '', // Ensure tag is not null
+              tag: product!['image'] ?? 'https://example.com/placeholder.jpg',
               child: Image.network(
-                product!['image'] ?? '',
+                product!['image'] ??
+                    'https://via.placeholder.com/300x300.png?'
+                        'text=No+Image+Available',
                 height: 300,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Center(child: Text("Image not available"));
+                  return Image.network(
+                    product!['image'] ??
+                        'https://via.placeholder.com/300x300.png?'
+                            'text=No+Image+Available',
+                    height: 300,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  );
                 },
               ),
             ),
@@ -72,7 +100,6 @@ class ProductDetailsPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
                   Row(
                     children: [
                       Text(
@@ -94,7 +121,6 @@ class ProductDetailsPage extends StatelessWidget {
                         ),
                     ],
                   ),
-                  
                   Row(
                     children: [
                       const Icon(
@@ -109,9 +135,7 @@ class ProductDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
                   const SizedBox(height: 20),
-                  
                   const Text(
                     "Description",
                     style: TextStyle(
@@ -124,9 +148,7 @@ class ProductDetailsPage extends StatelessWidget {
                     product!['description'] ?? "No description available.",
                     style: const TextStyle(fontSize: 16),
                   ),
-                  
                   const SizedBox(height: 30),
-                  
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -137,7 +159,8 @@ class ProductDetailsPage extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 171, 132, 238),
+                        backgroundColor:
+                            const Color.fromARGB(255, 171, 132, 238),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 40, vertical: 15),
                         textStyle: const TextStyle(fontSize: 18),

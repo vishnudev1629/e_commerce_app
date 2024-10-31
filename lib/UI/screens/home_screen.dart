@@ -1,7 +1,8 @@
+import 'package:e_commerce_app/UI/screens/product_details_screen.dart';
+import 'package:e_commerce_app/core/Models/get_product/get_product.dart';
 import 'package:e_commerce_app/core/view_model/get_products/get_products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_commerce_app/core/Models/product_model.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -17,18 +18,17 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.menu),
             onPressed: () {},
           ),
-          title: const Center(
-            child: Text(
-              'Ecommerce',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xff000000)),
-            ),
+          title: const Text(
+            'Ecommerce',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {},
-            )
+            ),
           ],
+          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -79,12 +79,14 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: Colors.grey[200],
               contentPadding: const EdgeInsets.symmetric(vertical: 12),
             ),
           ),
         ),
-        CategorySection(title: "Products", products: products),
+        CategorySection(title: "New Arrivals", products: products),
+        const SizedBox(height: 20),
+        CategorySection(title: "Trending Products", products: products),
       ],
     );
   }
@@ -125,18 +127,32 @@ class CategorySection extends StatelessWidget {
     );
   }
 }
-
 class ProductCard extends StatelessWidget {
   final Product product;
+  final String? lastViewedProductId;
 
-  const ProductCard({super.key, required this.product});
+  const ProductCard({super.key, required this.product, this.lastViewedProductId});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-  
-    
+        if (lastViewedProductId!= product.productId) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailsPage(product: {
+                'id': product.productId,
+                'name': product.name,
+                'image': product.image,
+                'price': product.price,
+                'discount': product.discount,
+                'rating': product.rating,
+                'description': product.description,
+              }),
+            ),
+          );
+        }
       },
       child: Container(
         width: 160,
@@ -155,13 +171,16 @@ class ProductCard extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
-                    product.imageUrl,  
+                    product.image ?? 'https://example.com/placeholder.jpg',
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.broken_image, color: Colors.grey[300], size: 100);
+                    },
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  product.name,
+                  product.name ?? 'Product Name',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -177,6 +196,10 @@ class ProductCard extends StatelessWidget {
                     fontSize: 16,
                     color: Colors.deepPurple,
                   ),
+                ),
+                Text(
+                  '${product.discount}% off',
+                  style: const TextStyle(fontSize: 12, color: Colors.red),
                 ),
                 Row(
                   children: [
@@ -200,3 +223,4 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+

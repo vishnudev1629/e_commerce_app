@@ -19,14 +19,15 @@ class TestScreen extends StatelessWidget {
                   orElse: () {
                     return Text("Default");
                   },
-                loading: () {
-                  return CircularProgressIndicator();
-                },
-                failure: (error) {
-                  return Text("Error");
-                },success: (response) {
-                  return Text("Success ${response[0].name}");
-                },
+                  loading: () {
+                    return CircularProgressIndicator();
+                  },
+                  failure: (error) {
+                    return Text("Error");
+                  },
+                  success: (response) {
+                    return Text("Success ${response[0].name}");
+                  },
                 );
               },
             ),
